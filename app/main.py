@@ -4,7 +4,7 @@ from .models import models
 from .models import database
 from .routes import user,list
 from .auth import auth
-models.Base.metadata.create_all(bind=database.engine)
+
 app = FastAPI()
 
 app.include_router(user.router)
