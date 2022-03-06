@@ -5,9 +5,9 @@ from app.models import database
 from sqlalchemy.orm import Session
 from app.models import schemas
 
-router = APIRouter(prefix = "/users",tags = ["USER"])
+router = APIRouter(tags = ["USER"])
 
-@router.post("/",status_code=status.HTTP_201_CREATED,response_model=schemas.User)
+@router.post("/users",status_code=status.HTTP_201_CREATED,response_model=schemas.User)
 async def create_user(user:schemas.UserCreate,db:Session =Depends(database.get_db)):
     exists_user = db.query(models.User).filter(models.User.email == user.email).first()
     same_username = db.query(models.User).filter(models.User.username == user.username).first()
