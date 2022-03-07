@@ -6,9 +6,9 @@ from sqlalchemy.orm import Session
 from app.auth import oauth2
 
 
-router = APIRouter(tags=["Authetication"])
+router = APIRouter(prefix="/login",tags=["Authetication"])
 
-@router.post("/login",response_model=schemas.Token)
+@router.post("/",response_model=schemas.Token)
 def login(user_cred:OAuth2PasswordRequestForm = Depends(),db:Session = Depends(database.get_db)):
     user = db.query(models.User).filter(models.User.email == user_cred.username).first()
     
