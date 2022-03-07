@@ -24,3 +24,10 @@ async def create_user(user:schemas.UserCreate,db:Session =Depends(database.get_d
     db.commit()
     db.refresh(new_user)
     return new_user    
+
+@router.get("/{id}",status_code=status.HTTP_200_OK,response_model=schemas.UserResponse)
+async def get_user(id:int,db:Session = Depends(database.get_db)):
+    user = db.query(models.User).filter(models.User.id == id).first()
+    if not user:
+        raise HTTPException(status.HTTP_404_NOT_FOUND,"User not found")
+    return user

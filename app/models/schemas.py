@@ -1,5 +1,6 @@
 from datetime import datetime
 from email import contentmanager
+import email
 from re import L
 from typing import Optional
 from pydantic import BaseModel,EmailStr
@@ -16,6 +17,14 @@ class UserCreate(BaseModel):
     username:str
     email:str
     password:str
+    
+class UserResponse(BaseModel):
+    id:int
+    username:str
+    email:str
+    
+    class Config:
+        orm_mode = True
     
 class TodoCreate(BaseModel):
     title:str
