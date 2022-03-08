@@ -17,7 +17,7 @@ depends_on = None
 
 
 def upgrade():
-    op.add_column('users',sa.Column('username',sa.String(),nullable=False,unique=True))
+    op.add_column('users',sa.Column('username',sa.String(),nullable=False))
     op.add_column('users',sa.Column('email',sa.String(),nullable=False))
     op.add_column('users',sa.Column('password',sa.String(),nullable=False))
     op.add_column('users',sa.Column('created_at',sa.TIMESTAMP(timezone=True),nullable=False,server_default=sa.text('now()')))
