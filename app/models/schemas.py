@@ -1,8 +1,6 @@
-from calendar import c
+
 from datetime import datetime
-from email import contentmanager
-import email
-from re import L
+
 from typing import Optional
 from pydantic import BaseModel,EmailStr
 
@@ -58,3 +56,18 @@ class TokenData(BaseModel):
 class TaskList(TodoCreate):
     class Config:
         orm_mode = True
+        
+class FriendReq(BaseModel):
+    toid:int
+    accepted:Optional[bool] = False
+class FriendReqAccept(BaseModel):
+    fromid:int
+    accepted:Optional[bool] =True
+    
+class FriendReqList(BaseModel):
+    id:int
+    username:str
+    email:str
+    class Config:
+        orm_mode =True
+        

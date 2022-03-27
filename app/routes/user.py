@@ -1,9 +1,11 @@
+from typing import List
 from fastapi import APIRouter,Depends,HTTPException,status
 from app.models import models
 from app.utils import utils
 from app.models import database
 from sqlalchemy.orm import Session
 from app.models import schemas
+from app.auth import oauth2
 
 router = APIRouter(prefix="/users",tags = ["USER"])
 
@@ -11,18 +13,18 @@ router = APIRouter(prefix="/users",tags = ["USER"])
 async def create_user(user:schemas.UserCreate,db:Session =Depends(database.get_db)):
     exists_user = db.query(models.User).filter(models.User.email == user.email).first()
     
-    
     if exists_user:
         raise HTTPException(status_code=status.HTTP_409_CONFLICT,detail="User already exists")
-    
-    
     
     user.password = utils.hash(user.password)
     new_user = models.User(**user.dict())
     db.add(new_user)
     db.commit()
     db.refresh(new_user)
-    return new_user    
+    return new_user   
+
+
+    
 
 @router.get("/{id}",status_code=status.HTTP_200_OK,response_model=schemas.UserResponse)
 async def get_user(id:int,db:Session = Depends(database.get_db)):

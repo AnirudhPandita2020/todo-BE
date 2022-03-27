@@ -1,4 +1,5 @@
 
+from ast import For
 from .database import Base
 from sqlalchemy import TIME, TIMESTAMP, Column, ForeignKey, Integer,String, null, text,Boolean
 from sqlalchemy.orm import relationship
@@ -21,4 +22,11 @@ class TodoList(Base):
     created_at = Column(TIMESTAMP(timezone=True),nullable=False,server_default=text('now()'))
     
     user = relationship("User")
+
+class Friendsreq(Base):
+    __tablename__ = "fr"
+    fromid = Column(Integer,primary_key=True,nullable = False)
+    toid = Column(Integer,primary_key=True,nullable=False)
+    accepted = Column(Boolean,server_default='False')
+    
     
