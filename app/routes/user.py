@@ -1,4 +1,4 @@
-from typing import List
+from typing import List,Optional
 from fastapi import APIRouter,Depends,HTTPException,status
 from app.models import models
 from app.utils import utils
@@ -24,6 +24,10 @@ async def create_user(user:schemas.UserCreate,db:Session =Depends(database.get_d
     return new_user   
 
 
+@router.get("/",status_code=status.HTTP_200_OK,response_model=List[schemas.UserResponse])
+async def get_user_by_name(db:Session = Depends(database.get_db),search:Optional[str] = ""):
+    user = db.query(models.User).filter(models.User.username.contains(search)).all()
+    return user
     
 
 @router.get("/{id}",status_code=status.HTTP_200_OK,response_model=schemas.UserResponse)
