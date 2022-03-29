@@ -24,7 +24,7 @@ async def create_user(user:schemas.UserCreate,db:Session =Depends(database.get_d
     return new_user   
 
 
-@router.get("/",status_code=status.HTTP_200_OK,response_model=List[schemas.UserResponse])
+@router.get("",status_code=status.HTTP_200_OK,response_model=List[schemas.UserResponse])
 async def get_user_by_name(db:Session = Depends(database.get_db),search:Optional[str] = ""):
     user = db.query(models.User).filter(models.User.username.contains(search)).all()
     return user
