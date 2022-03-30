@@ -5,7 +5,7 @@ from app.utils import utils
 from app.models import database
 from sqlalchemy.orm import Session
 from app.models import schemas
-from app.auth import oauth2
+
 
 router = APIRouter(prefix="/users",tags = ["USER"])
 
