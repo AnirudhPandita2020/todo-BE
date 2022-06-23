@@ -71,3 +71,7 @@ class FriendReqList(BaseModel):
     class Config:
         orm_mode =True
         
+class Count(BaseModel):
+    completed:int
+    pending:int
+        

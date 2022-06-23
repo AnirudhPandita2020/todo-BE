@@ -1,4 +1,6 @@
+from cgitb import reset
 from typing import List
+from unittest import async_case
 from fastapi import APIRouter, Depends,HTTPException, Response,status
 from app.models import database,schemas,models
 from sqlalchemy.orm import Session
@@ -50,3 +52,22 @@ def delete_post(id:int,db:Session = Depends(database.get_db),get_current_user:in
     db.commit()
     
     return Response(status_code=status.HTTP_204_NO_CONTENT)
+
+@router.get("/count",status_code=status.HTTP_200_OK)
+async def get_task_count(db:Session = Depends(database.get_db),get_current_user = Depends(oauth2.get_current_user)):
+    completed_task = db.query(
+        models.TodoList
+    ).filter(models.TodoList.userid == get_current_user.id,
+             models.TodoList.is_completed == True).count()
+    
+    pending_task = db.query(
+        models.TodoList
+    ).filter(
+        models.TodoList.userid == get_current_user.id,
+             models.TodoList.is_completed == False
+    ).count()
+    
+    return {
+        "completed":completed_task,
+        "pending":pending_task
+    }
